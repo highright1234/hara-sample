@@ -70,22 +70,24 @@ tasks.register<Jar>("pluginsUpdate") {
     from(sourceSets["main"].output)
     val serverDir = File(rootDir, ".server")
     val plugins = File(serverDir, "plugins")
-    if (!serverDir.exists()) {
-        serverDir.mkdir()
+    doLast {
+        if (!serverDir.exists()) {
+            serverDir.mkdir()
+            copy {
+                from(File("E:\\.server\\").also { println(it) })
+                include("**/**")
+                into(serverDir)
+            }
+        }
         copy {
-            from(File("E:\\.server\\").also { println(it) })
-            include("**/**")
-            into(serverDir)
+            from(archiveFile)
+            if (File(plugins, archiveFileName.get()).exists()) {
+                File(plugins, archiveFileName.get()).delete()
+            }
+            into(plugins)
         }
+        File(File(plugins, "update"), "RELOAD").delete()
     }
-    copy {
-        from(archiveFile)
-        if (File(plugins, archiveFileName.get()).exists()) {
-            File(plugins, archiveFileName.get()).delete()
-        }
-        into(plugins)
-    }
-    File(File(plugins, "update"), "RELOAD").delete()
 }
 
 tasks.named("build") { finalizedBy("pluginsUpdate") }
