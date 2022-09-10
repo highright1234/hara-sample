@@ -1,6 +1,6 @@
 object Versions {
     const val KOTLIN = "1.7.10"
-    const val PLUGIN_YML = "0.5.2"
+    const val PLUGIN_YML = "0.6.1-SNAPSHOT"
     const val KOMMAND = "2.14.0"
     const val INVFX = "3.2.0"
     const val TAP = "4.7.1"

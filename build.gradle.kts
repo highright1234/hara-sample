@@ -4,15 +4,14 @@ plugins {
     idea
     kotlin("jvm") version Versions.KOTLIN
     id("net.minecrell.plugin-yml.bukkit") version Versions.PLUGIN_YML
+//    id("kr.entree.spigradle") version "2.4.2"
 }
 
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
-
+val monunLibraries = mutableListOf<String>()
 fun DependencyHandlerScope.monunLibrary(name: String, version: String) {
     compileOnly("io.github.monun:$name-api:$version")
-    (bukkit.libraries ?: listOf()).plus("io.github.monun:$name-core:$version").also {
-        bukkit.libraries = it
-    }
+    monunLibraries += "io.github.monun:$name-core:$version"
 }
 
 /*
@@ -33,10 +32,10 @@ dependencies {
 //    monunLibrary("tap", Versions.TAP)
     monunLibrary("invfx", Versions.INVFX)
     monunLibrary("kommand", Versions.KOMMAND)
-    compileOnly("io.papermc.paper:paper-api:${project.bukkit.apiVersion}-R0.1-SNAPSHOT")
-    library("com.github.shynixn.mccoroutine:mccoroutine-bukkit-api:${Versions.MC_COROUTINE}")
-    library("com.github.shynixn.mccoroutine:mccoroutine-bukkit-core:${Versions.MC_COROUTINE}")
+    bukkitLibrary("com.github.shynixn.mccoroutine:mccoroutine-bukkit-api:${Versions.MC_COROUTINE}")
+    bukkitLibrary("com.github.shynixn.mccoroutine:mccoroutine-bukkit-core:${Versions.MC_COROUTINE}")
     library("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINE}")
+    compileOnly("io.papermc.paper:paper-api:${project.bukkit.apiVersion}-R0.1-SNAPSHOT")
     library(kotlin("stdlib-jdk8"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
@@ -61,6 +60,9 @@ bukkit {
     main = "${project.group}.$directoryName.$pluginName"
     website = "http://www.github.com/highright1234/${project.name}"
     author = "HighRight"
+    (libraries ?: listOf()).plus(monunLibraries).also {
+        libraries = it
+    }
 }
 
 tasks.register<Jar>("pluginsUpdate") {
@@ -82,8 +84,8 @@ tasks.register<Jar>("pluginsUpdate") {
             File(plugins, archiveFileName.get()).delete()
         }
         into(plugins)
-        File(File(plugins, "update"), "RELOAD").delete()
     }
+    File(File(plugins, "update"), "RELOAD").delete()
 }
 
 tasks.named("build") { finalizedBy("pluginsUpdate") }
