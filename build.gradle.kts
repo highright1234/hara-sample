@@ -11,7 +11,8 @@ java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 val monunLibraries = mutableListOf<String>()
 fun DependencyHandlerScope.monunLibrary(name: String, version: String) {
     compileOnly("io.github.monun:$name-api:$version")
-    monunLibraries += "io.github.monun:$name-core:$version"
+//    monunLibraries += "io.github.monun:$name-core:$version"
+    library("io.github.monun:$name-core.$version")
 }
 
 /*
