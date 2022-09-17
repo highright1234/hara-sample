@@ -4,7 +4,6 @@ plugins {
     idea
     kotlin("jvm") version Versions.KOTLIN
     id("net.minecrell.plugin-yml.bukkit") version Versions.PLUGIN_YML
-//    id("kr.entree.spigradle") version "2.4.2"
 }
 
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
@@ -12,7 +11,7 @@ val monunLibraries = mutableListOf<String>()
 fun DependencyHandlerScope.monunLibrary(name: String, version: String) {
     compileOnly("io.github.monun:$name-api:$version")
 //    monunLibraries += "io.github.monun:$name-core:$version"
-    library("io.github.monun:$name-core.$version")
+    library("io.github.monun:$name-core:$version")
 }
 
 /*
@@ -30,7 +29,7 @@ repositories {
 }
 
 dependencies {
-//    monunLibrary("tap", Versions.TAP)
+    monunLibrary("tap", Versions.TAP)
     monunLibrary("invfx", Versions.INVFX)
     monunLibrary("kommand", Versions.KOMMAND)
     bukkitLibrary("com.github.shynixn.mccoroutine:mccoroutine-bukkit-api:${Versions.MC_COROUTINE}")
@@ -38,6 +37,7 @@ dependencies {
     library("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINE}")
     compileOnly("io.papermc.paper:paper-api:${project.bukkit.apiVersion}-R0.1-SNAPSHOT")
     library(kotlin("stdlib-jdk8"))
+    library(kotlin("reflect"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
     testImplementation("io.kotlintest:kotlintest-runner-junit5:3.4.2")
