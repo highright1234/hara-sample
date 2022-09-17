@@ -8,7 +8,7 @@ import io.github.highright1234.harasample.listener.SampleListener
 import io.github.monun.kommand.KommandContext
 import io.github.monun.kommand.KommandSource
 import io.github.monun.kommand.kommand
-import io.github.monun.kommand.node.LiteralNode
+import io.github.monun.kommand.node.KommandNode
 
 class HaraSample : SuspendingJavaPlugin() {
     companion object {
@@ -27,7 +27,7 @@ class HaraSample : SuspendingJavaPlugin() {
     }
 }
 
-fun LiteralNode.suspendExecutes(executes: suspend KommandSource.(KommandContext) -> Unit) {
+fun KommandNode.suspendExecutes(executes: suspend KommandSource.(KommandContext) -> Unit) {
     executes { kommandContext ->
         HaraSample.plugin.launch {
             executes.invoke(this@executes, kommandContext)
