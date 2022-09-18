@@ -23,8 +23,9 @@ class HaraSample : SuspendingJavaPlugin() {
         SampleKommand
     )
 
+    private fun file(name: String) = File(dataFolder, name)
+
     private val configClasses : List<Pair<ConfigClass, File>> by lazy {
-        fun file(name: String) = File(dataFolder, name)
         listOf(
             SampleConfig to file("config.yml")
         )
@@ -42,10 +43,6 @@ class HaraSample : SuspendingJavaPlugin() {
         listeners.forEach {
             server.pluginManager.registerSuspendingEvents(it, this)
         }
-    }
-
-    override suspend fun onDisableAsync() {
-
     }
 }
 

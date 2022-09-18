@@ -4,6 +4,13 @@ plugins {
     idea
     kotlin("jvm") version Versions.KOTLIN
     id("net.minecrell.plugin-yml.bukkit") version Versions.PLUGIN_YML
+    id("io.gitlab.arturbosch.detekt") version Versions.DETEKT
+}
+
+detekt {
+    toolVersion = "1.21.0"
+    config = files("config/detekt/detekt.yml")
+    buildUponDefaultConfig = true
 }
 
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))

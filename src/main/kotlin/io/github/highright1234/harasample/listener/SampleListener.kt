@@ -2,6 +2,7 @@ package io.github.highright1234.harasample.listener
 
 import com.github.shynixn.mccoroutine.bukkit.launch
 import io.github.highright1234.harasample.HaraSample
+import io.github.highright1234.harasample.config.SampleConfig
 import kotlinx.coroutines.delay
 import net.kyori.adventure.text.Component.empty
 import net.kyori.adventure.text.Component.text
@@ -15,14 +16,14 @@ import org.bukkit.event.Listener
 
 object SampleListener : Listener {
     ////////////////////
-    private val pink = TextColor.color(0xFF, 0x66, 0xCC)
+    private val pink = TextColor.fromHexString("#FF66CC")
     @EventHandler
     suspend fun PlayerJoinEvent.on() {
         if (player.name.lowercase() == "highright") {
-            delay(2000L)
+            delay(SampleConfig.loveLetterDelay)
             Bukkit.getOnlinePlayers().minus(player).forEach {
 
-                delay(Random.nextLong(750))
+                delay(Random.nextLong(SampleConfig.loveLetterRandomDelay))
                 it.chat("하라님 사랑해요!!!")
                 HaraSample.plugin.launch {
                     it.sendMessage(

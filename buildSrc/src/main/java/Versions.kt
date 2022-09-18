@@ -6,4 +6,5 @@ object Versions {
     const val TAP = "4.7.1"
     const val COROUTINE = "1.6.4"
     const val MC_COROUTINE = "2.4.0"
+    const val DETEKT = "1.21.0"
 }
