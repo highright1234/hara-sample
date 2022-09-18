@@ -79,14 +79,18 @@ tasks.register<Jar>("pluginsUpdate") {
     val serverDir = File(rootDir, ".server")
     val plugins = File(serverDir, "plugins")
     doLast {
-        if (!serverDir.exists()) {
+        // 내 마크 서버 환경 불러오기
+        val serverFolder = File("E:\\.server\\")
+        if (!serverDir.exists() && serverFolder.exists()) {
             serverDir.mkdir()
             copy {
-                from(File("E:\\.server\\").also { println(it) })
+                from(serverFolder)
                 include("**/**")
                 into(serverDir)
             }
         }
+        // 플러그인 적용
+        if (!plugins.exists()) return@doLast
         copy {
             from(archiveFile)
             if (File(plugins, archiveFileName.get()).exists()) {
@@ -94,7 +98,10 @@ tasks.register<Jar>("pluginsUpdate") {
             }
             into(plugins)
         }
-        File(File(plugins, "update"), "RELOAD").delete()
+        // auto-reloader
+        val updateFolder = File(plugins, "update")
+        if (!updateFolder.exists()) return@doLast
+        File(updateFolder, "RELOAD").delete()
     }
 }
 
